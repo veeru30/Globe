@@ -1,0 +1,35 @@
+name: Node.js CI
+
+on: 
+  pull_request:
+     branches:
+       - main
+
+jobs:
+  CI:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: install dependencies
+        working-directory: dc
+        run: npm install
+
+      - name: Run ESlint
+        working-directory: dc
+        run: run npm lint
+
+      - name: Run tests
+        working-directory: dc
+        run: CI=True npm test
+
+      - name: Build application
+        working-directory: dc
+        run: npm run build
+
